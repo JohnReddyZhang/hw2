@@ -31,6 +31,15 @@ class Test0BuyTickets(unittest.TestCase):
         self.assertFalse(self.BoxOffice.buy('20160901', 'm', '1', '1'))
         self.assertNotIn('20160901', self.BoxOffice._event_category)
 
+    def test_5_buy_wrong_tickets(self):
+        self.assertFalse(self.BoxOffice.buy('20160901', 'm', '1', '21'))
+
+    def test_6_sold_out(self):
+        for i in range(20):
+            self.BoxOffice.buy('20180427', 'm', '1', '10')
+        self.assertIn('20180427141001', self.BoxOffice._serial_numbers)
+        self.assertFalse(self.BoxOffice.buy('20180427', 'm', '1', '1'))
+
 
 if __name__ == '__main__':
     unittest.main()
