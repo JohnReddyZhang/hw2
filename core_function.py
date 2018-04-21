@@ -20,10 +20,9 @@ class BOffice(object):
                 print('Cannot buy more than 10 _event_category a time.')
                 raise IndexError
             for i in range(0, int(number_of_ticket)):
-                try:
-                    self._buy(show_day, show_time, screen)
-                except False:
-                    break
+                success = self._buy(show_day, show_time, screen)
+                if not success:
+                    return False
             return True
         except IndexError:
             return False
