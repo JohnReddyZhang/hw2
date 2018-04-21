@@ -14,6 +14,7 @@ class Test0BuyTickets(unittest.TestCase):
 
     def test_1_buy_5_tickets(self):
         self.BoxOffice.buy('20180427', 'm', '1', '5')
+        self.assertIn(('20180427', 'm', '1'), self.BoxOffice.tickets)
 
 
 if __name__ == '__main__':

@@ -12,7 +12,11 @@ class BOffice(object):
         self.avail_t = timedelta(days=7)
         self.price = ['tier1', 'tier2', 'tier3', 'tier4']
 
-    def buy(self, show_d, show_t, screen):
+    def buy(self, show_day, show_time, screen, number_of_ticket=1):
+        for i in range(0, int(number_of_ticket)):
+            self._buy(show_day, show_time, screen)
+
+    def _buy(self, show_d, show_t, screen):  # Method for buying a single ticket.
         self.now = datetime.now()
 
         info = (show_d, show_t, screen)
