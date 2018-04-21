@@ -40,6 +40,13 @@ class Test0BuyTickets(unittest.TestCase):
         self.assertIn('20180427141001', self.BoxOffice._serial_numbers)
         self.assertFalse(self.BoxOffice.buy('20180427', 'm', '1', '1'))
 
+    def test_7_buy_two_events(self):
+        self.assertTrue(self.BoxOffice.buy('20180427', 'n', '2', '1'))
+        self.assertTrue(self.BoxOffice.buy('20180428', 'm', '1', '1'))
+        self.assertIn('20180427202200', self.BoxOffice._serial_numbers)
+        self.assertIn('20180429141200', self.BoxOffice._serial_numbers)
+        self.assertEqual(self.BoxOffice._serial_numbers['20180428141200'].price_tier_lookup(), 'tier3')
+
 
 if __name__ == '__main__':
     unittest.main()
