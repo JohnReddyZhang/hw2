@@ -50,6 +50,7 @@ class BOffice(object):
             print('Success! Your serial number is:{}\n'
                   'Price tier: {}\n'
                   .format(serial, self._serial_numbers[serial].price_tier_lookup()))
+            return True
 
     def refund(self, serial):
         self.now = datetime.now()
