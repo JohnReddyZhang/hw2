@@ -13,11 +13,10 @@ class Test0BuyTickets(unittest.TestCase):
         self.assertIn(('20180427', 'm', '1'), self.BoxOffice.tickets)
 
     def test_1_buy_5_tickets(self):
-        self.BoxOffice.buy('20180427', 'm', '1', '5')
-        self.assertIn(('20180427', 'm', '1'), self.BoxOffice.tickets)
+        self.assertTrue(self.BoxOffice.buy('20180427', 'm', '1', '5'))
 
     def test_2_buy_11_tickets(self):
-        self.assertRaises(IndexError, self.BoxOffice.buy, '20180427', 'm', '1', '11')
+        self.assertFalse(self.BoxOffice.buy('20180427', 'm', '1', '11'))
 
 
 if __name__ == '__main__':

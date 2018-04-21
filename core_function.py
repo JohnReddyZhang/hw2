@@ -11,15 +11,22 @@ class BOffice(object):
         self.tickets = {}
         self.avail_t = timedelta(days=7)
         self.price = ['tier1', 'tier2', 'tier3', 'tier4']
+        self.screen = ['1', '2', '3', '4', '5']
 
     def buy(self, show_day, show_time, screen, number_of_ticket=1):
-        number_of_ticket = int(number_of_ticket)
-        if number_of_ticket > 10:
-            print('Cannot buy more than 10 tickets a time.')
+        try:
+            number_of_ticket = int(number_of_ticket)
+            if number_of_ticket > 10:
+                print('Cannot buy more than 10 tickets a time.')
+                raise IndexError
+            if screen not in self.screen:
+                print('Please select screens from 1-5 only.')
+                raise IndexError
+            for i in range(0, int(number_of_ticket)):
+                self._buy(show_day, show_time, screen)
+            return True
+        except IndexError:
             return False
-        for i in range(0, int(number_of_ticket)):
-            self._buy(show_day, show_time, screen)
-        return True
 
     def _buy(self, show_day, show_time, screen):  # Method for buying a single ticket.
         self.now = datetime.now()
