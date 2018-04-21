@@ -48,5 +48,16 @@ class Test0BuyTickets(unittest.TestCase):
         self.assertEqual(self.BoxOffice._serial_numbers['20180428141200'].price_tier_lookup(), 'tier3')
 
 
+class Test1RefundTickets(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.BoxOffice = core_function.BOffice()
+
+    def test_0_refund_1(self):
+        self.BoxOffice.buy('20180427', 'm', '2', '1')
+        self.BoxOffice.refund('20180427142200')
+        self.assertNotIn('20180427142200', self.BoxOffice._serial_numbers)
+
+
 if __name__ == '__main__':
     unittest.main()
