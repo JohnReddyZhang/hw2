@@ -1,5 +1,6 @@
 from sys import exit
 from datetime import datetime, timedelta
+from event_class import Event
 
 
 class BOffice(object):
@@ -8,64 +9,47 @@ class BOffice(object):
     """
     def __init__(self):
         self.now = None
-        self.tickets = {}
-        self.avail_t = timedelta(days=7)
-        self.price = ['tier1', 'tier2', 'tier3', 'tier4']
-        self.screen = ['1', '2', '3', '4', '5']
+        self._event_category = {}
+        self._serial_numbers = {}
+        self._valid_operation_time = timedelta(days=7)
 
     def buy(self, show_day, show_time, screen, number_of_ticket=1):
         try:
             number_of_ticket = int(number_of_ticket)
             if number_of_ticket > 10:
-                print('Cannot buy more than 10 tickets a time.')
-                raise IndexError
-            if screen not in self.screen:
-                print('Please select screens from 1-5 only.')
+                print('Cannot buy more than 10 _event_category a time.')
                 raise IndexError
             for i in range(0, int(number_of_ticket)):
-                self._buy(show_day, show_time, screen)
+                try:
+                    self._buy(show_day, show_time, screen)
+                except False:
+                    break
             return True
         except IndexError:
             return False
 
     def _buy(self, show_day, show_time, screen):  # Method for buying a single ticket.
         self.now = datetime.now()
-
         info = (show_day, show_time, screen)
         # (date, showtime, auditorium)
-        showtime = datetime.strptime(show_day + '1400' if show_time == 'm'
-                                     else show_day + '2000',
-                                     '%Y%m%d%H%M')
+        if info not in self._event_category:
+            event = Event(show_day, show_time, screen)
+            if not event.is_event_valid(self.now, self._valid_operation_time):
+                print('Cannot buy event tickets for this day.')
+                return False
+            self._event_category[info] = event
+        else:
+            event = self._event_category[info]
 
-        if showtime - self.now > self.avail_t or showtime < self.now:
-            print('Cannot buy tickets for this day.')
+        if event.remaining_tickets_lookup() == 0:
+            print('Ticket for this event is sold out.')
             return False
         else:
-            price = 'unallocated'
-            if showtime.weekday() <= 3:
-                if show_time == 'm':
-                    price = self.price[0]
-                elif show_time == 'n':
-                    price = self.price[1]
-            else:
-                if show_time == 'm':
-                    price = self.price[2]
-                elif show_time == 'n':
-                    price = self.price[3]
-        if info in self.tickets.keys():
-            if self.tickets[info]['tickets'] == 0:
-                print('Ticket for this event is sold out.')
-            else:
-                serial = ''.join(info) + self.tickets[info]['tickets'].pop()
-                self.tickets[info]['serial'].append(serial)
-                print('Success! Your serial number: {}\nPrice tier: {}'.format(self.tickets[info]['serial'][-1], price))
-        else:
-            self.tickets[info] = {'tickets': ['{:0<3}'.format(str(i)) for i in range(0, 200)],
-                                  'price': price,
-                                  'serial': []}
-            serial = ''.join(info) + self.tickets[info]['tickets'].pop()
-            self.tickets[info]['serial'].append(serial)
-            print('Success! Your serial number: {}\nPrice tier: {}'.format(self.tickets[info]['serial'][-1], price))
+            serial = event.generate_serial_number()
+            self._serial_numbers[serial] = event
+            print('Success! Your serial number is:{}\n'
+                  'Price tier: {}\n'
+                  .format(serial, self._serial_numbers[serial].price_tier_lookup()))
 
     def refund(self, serial):
         self.now = datetime.now()
@@ -76,34 +60,34 @@ class BOffice(object):
         showtime = datetime.strptime(show_d+'1400' if show_t == 'm'
                                      else show_d + '2000',
                                      '%Y%m%d%H%M')
-        if info in self.tickets.keys() and serial in self.tickets[info]['serial']:
+        if info in self._event_category.keys() and serial in self._event_category[info]['serial']:
             # If the ticket exists, check whether the time has past.
             if showtime < self.now:
                 print('Cannot refund. Time has past.')
             else:
-                print('Refund value: {}'.format(self.tickets[info]['price']))
-                self.tickets[info]['serial'].remove(serial)
-                self.tickets[info]['tickets'].append(serial[10:])
+                print('Refund value: {}'.format(self._event_category[info]['_price']))
+                self._event_category[info]['serial'].remove(serial)
+                self._event_category[info]['_event_category'].append(serial[10:])
         else:
             print('Did not find ticket record for this event.')
 
-    def r_event(self, show_day, show_time, screen):
+    def report_event(self, show_day, show_time, screen):
         info = (show_day, show_time, screen)
         # print(info)
-        if info in self.tickets.keys():
+        if info in self._event_category.keys():
             print('Current event on {} {} in Auditorium {}\n'
-                  'has sold {} tickets, has {} vacant seats'
+                  'has sold {} _event_category, has {} vacant seats'
                   .format(show_day, 'Matinee' if show_time == 'm' else 'Night', screen,
-                          200 - self.tickets[info]['tickets'], self.tickets[info]['tickets']))
+                          200 - self._event_category[info]['_event_category'], self._event_category[info]['_event_category']))
         else:
             print('Did not find event.')
 
-    def r_day(self, day):
+    def report_day(self, day):
         sold = 0
-        if self.tickets == {}:
+        if self._event_category == {}:
             print('No data found.')
         else:
-            for info, value in self.tickets.items():
+            for info, value in self._event_category.items():
                 if info[0] == day:
-                    sold += (200 - len(value['tickets']))
-            print('{} tickets sold on day {}'.format(sold, day))
+                    sold += (200 - len(value['_event_category']))
+            print('{} _event_category sold on day {}'.format(sold, day))
