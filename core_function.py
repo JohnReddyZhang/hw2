@@ -13,16 +13,21 @@ class BOffice(object):
         self.price = ['tier1', 'tier2', 'tier3', 'tier4']
 
     def buy(self, show_day, show_time, screen, number_of_ticket=1):
+        number_of_ticket = int(number_of_ticket)
+        if number_of_ticket > 10:
+            print('Cannot buy more than 10 tickets a time.')
+            return False
         for i in range(0, int(number_of_ticket)):
             self._buy(show_day, show_time, screen)
+        return True
 
-    def _buy(self, show_d, show_t, screen):  # Method for buying a single ticket.
+    def _buy(self, show_day, show_time, screen):  # Method for buying a single ticket.
         self.now = datetime.now()
 
-        info = (show_d, show_t, screen)
+        info = (show_day, show_time, screen)
         # (date, showtime, auditorium)
-        showtime = datetime.strptime(show_d + '1400' if show_t == 'm'
-                                     else show_d + '2000',
+        showtime = datetime.strptime(show_day + '1400' if show_time == 'm'
+                                     else show_day + '2000',
                                      '%Y%m%d%H%M')
 
         if showtime - self.now > self.avail_t or showtime < self.now:
@@ -31,14 +36,14 @@ class BOffice(object):
         else:
             price = 'unallocated'
             if showtime.weekday() <= 3:
-                if show_t == 'm':
+                if show_time == 'm':
                     price = self.price[0]
-                elif show_t == 'n':
+                elif show_time == 'n':
                     price = self.price[1]
             else:
-                if show_t == 'm':
+                if show_time == 'm':
                     price = self.price[2]
-                elif show_t == 'n':
+                elif show_time == 'n':
                     price = self.price[3]
         if info in self.tickets.keys():
             if self.tickets[info]['tickets'] == 0:
@@ -75,13 +80,13 @@ class BOffice(object):
         else:
             print('Did not find ticket record for this event.')
 
-    def r_event(self, show_d, show_t, screen):
-        info = (show_d, show_t, screen)
+    def r_event(self, show_day, show_time, screen):
+        info = (show_day, show_time, screen)
         # print(info)
         if info in self.tickets.keys():
             print('Current event on {} {} in Auditorium {}\n'
                   'has sold {} tickets, has {} vacant seats'
-                  .format(show_d, 'Matinee' if show_t == 'm' else 'Night', screen,
+                  .format(show_day, 'Matinee' if show_time == 'm' else 'Night', screen,
                           200 - self.tickets[info]['tickets'], self.tickets[info]['tickets']))
         else:
             print('Did not find event.')

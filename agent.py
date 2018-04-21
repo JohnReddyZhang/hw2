@@ -29,6 +29,7 @@ class AppShell(cmd.Cmd):
         <date> format: yyyymmdd
         <showtime>: m for matinee, n for night
         <auditorium>: 1 - 5
+        <numbers>: any less than 10.
         """
         self.b_office.buy(*args.split(' '))
 

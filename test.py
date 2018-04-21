@@ -16,9 +16,9 @@ class Test0BuyTickets(unittest.TestCase):
         self.BoxOffice.buy('20180427', 'm', '1', '5')
         self.assertIn(('20180427', 'm', '1'), self.BoxOffice.tickets)
 
-    def test_2_buy_11_tickets(self):
-        self.BoxOffice.buy('20180427', 'm', '1', '10')
-        self.assertNotIn(('20180427', 'm', '1'), self.BoxOffice.tickets)
+    # def test_2_buy_11_tickets(self):
+    #     self.BoxOffice.buy('20180427', 'm', '1', '10')
+    #     self.assertNotIn(('20180427', 'm', '1'), self.BoxOffice.tickets)
 
 
 if __name__ == '__main__':
