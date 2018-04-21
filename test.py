@@ -25,6 +25,11 @@ class Test0BuyTickets(unittest.TestCase):
 
     def test_3_buy_invalid_date_tickets(self):
         self.assertFalse(self.BoxOffice.buy('20180901', 'm', '1', '1'))
+        self.assertNotIn('20180901', self.BoxOffice._event_category)
+
+    def test_4_buy_invalid_date_tickets_2(self):
+        self.assertFalse(self.BoxOffice.buy('20160901', 'm', '1', '1'))
+        self.assertNotIn('20160901', self.BoxOffice._event_category)
 
 
 if __name__ == '__main__':
