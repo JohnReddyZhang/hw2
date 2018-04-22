@@ -12,7 +12,7 @@ class AppShell(cmd.Cmd):
 
     def __init__(self):
         super().__init__()
-        self.b_office = BoxOffice()
+        self.b_office = BoxOffice('amc_theater')
 
     @staticmethod
     def do_quit(args=''):
