@@ -91,7 +91,7 @@ class Test3Reports(unittest.TestCase):
         cls.BoxOffice.buy('20180425', 'n', '2', '6')
         # 4.24 sells 2, refunds 2.
         cls.BoxOffice.buy('20180424', 'n', '1', '2')
-        cls.BoxOffice.refund('20180424201002')
+        cls.BoxOffice.refund('20180424201000')
         cls.BoxOffice.refund('20180424201001')
 
     def test_0_report_event(self):
