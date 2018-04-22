@@ -89,6 +89,10 @@ class Test3Reports(unittest.TestCase):
         # 4.25 sells 10 tickets in matinee auditorium 1, 6 in night auditorium 2
         cls.BoxOffice.buy('20180425', 'm', '1', '10')
         cls.BoxOffice.buy('20180425', 'n', '2', '6')
+        # 4.24 sells 2, refunds 2.
+        cls.BoxOffice.buy('20180424', 'n', '1', '2')
+        cls.BoxOffice.refund('20180424201002')
+        cls.BoxOffice.refund('20180424201001')
 
     def test_0_report_event(self):
         self.assertEqual(self.BoxOffice.report_event('20180427', 'm', '1'), 199)
@@ -99,6 +103,20 @@ class Test3Reports(unittest.TestCase):
     def test_2_report_event_not_exist(self):
         self.assertFalse(self.BoxOffice.report_event('20180426', 'n', '2'))
 
+    def test_3_report_daily(self):
+        self.assertEqual(self.BoxOffice.report_day('20180427'), 2)
+
+    def test_4_report_daily(self):
+        self.assertEqual(self.BoxOffice.report_day('20180426'), 15)
+
+    def test_5_report_daily(self):
+        self.assertEqual(self.BoxOffice.report_day('20180425'), 16)
+
+    def test_6_report_daily(self):
+        self.assertEqual(self.BoxOffice.report_day('20180424'), 0)
+
+    def test_6_report_daily_no_record(self):
+        self.assertFalse(self.BoxOffice.report_day('20180422'))
 
 
 if __name__ == '__main__':

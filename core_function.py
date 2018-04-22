@@ -80,13 +80,13 @@ class BoxOffice(object):
         if info in self._event_category:
             isinstance(self._event_category[info], Event)
             event = self._event_category[info]
-            print('Current event on {} {} in Auditorium {}\n'
+            print('\nCurrent event on {} {} in Auditorium {}\n'
                   'has sold {} tickets, has {} vacant seats'
                   .format(show_day, 'Matinee' if show_time == 'm' else 'Night', screen,
                           200 - event.vacant_ticket_report(), event.vacant_ticket_report()))
             return event.vacant_ticket_report()
         else:
-            print('Did not find event.')
+            print('\nDid not find event.')
 
     def report_day(self, day):
         sold = 0
