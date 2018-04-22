@@ -115,8 +115,8 @@ class Test3Reports(unittest.TestCase):
     def test_6_report_daily(self):
         self.assertEqual(self.BoxOffice.report_day('20180424'), 0)
 
-    # def test_6_report_daily_no_record(self):
-    #     self.assertFalse(self.BoxOffice.report_day('20180422'))
+    def test_6_report_daily_no_record(self):
+        self.assertEqual(self.BoxOffice.report_day('20180422'), 0)
 
 
 if __name__ == '__main__':
