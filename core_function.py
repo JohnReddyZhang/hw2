@@ -22,11 +22,24 @@ class BoxOffice(object):
             with open(self._history, 'rb') as source:
                 self._event_category, self._serial_numbers = pickle.load(source)
 
-    def dump_data(self):
+    def _dump_data(self):
+        """
+        saves data to pkl.
+        :return: None
+        """
         with open(self._history, 'wb') as dump:
             pickle.dump([self._event_category, self._serial_numbers], dump, pickle.HIGHEST_PROTOCOL)
 
     def buy(self, show_day, show_time, screen, number_of_ticket=1):
+        """
+        Able to buy different number of tickets than original.
+        :param show_day: str, yyyymmdd
+        :param show_time: str m (manatee) or n (night)
+        :param screen: str 1 to 5.
+        :param number_of_ticket: str do not exceed over 10.
+        :return: boolean, success or failed.
+        prints your serial number, adds to serial number dictionary.
+        """
         try:
             number_of_ticket = int(number_of_ticket)
             if number_of_ticket > 10:
@@ -36,12 +49,19 @@ class BoxOffice(object):
                 success = self._buy(show_day, show_time, screen)
                 if not success:
                     return False
-            self.dump_data()
+            self._dump_data()
             return True
         except IndexError:
             return False
 
     def _buy(self, show_day, show_time, screen):  # Method for buying a single ticket.
+        """
+        Not open to agent direct use.
+        :param show_day: str, yyyymmdd
+        :param show_time: str m (manatee) or n (night)
+        :param screen: str 1 to 5.
+        :return: boolean, success or failed.
+        """
         self.now = datetime.now()
         info = (show_day, show_time, screen)
         # (date, showtime, auditorium)
@@ -66,6 +86,11 @@ class BoxOffice(object):
             return True
 
     def refund(self, serial):
+        """
+        Give serial number, do refund.
+        :param serial:
+        :return: boolean, success or fail.
+        """
         self.now = datetime.now()
 
         if serial not in self._serial_numbers:
@@ -86,10 +111,18 @@ class BoxOffice(object):
             return False
         else:
             print('Success! Refund price: {}'.format(refund_price))
-            self.dump_data()
+            self._dump_data()
             return True
 
     def report_event(self, show_day, show_time, screen):
+        """
+        Prints out event report given specific event detail.
+        :param show_day: str, yyyymmdd
+        :param show_time: str m (manatee) or n (night)
+        :param screen: str 1 to 5.
+        :return: int vacant seats.
+        prints the statistics.
+        """
         info = (show_day, show_time, screen)
         # print(info)
         if info in self._event_category:
@@ -104,6 +137,11 @@ class BoxOffice(object):
             print('\nDid not find event.')
 
     def report_day(self, day):
+        """
+        Prints out report based on date.
+        :param day: str, yyyymmdd
+        :return: int number of tickets sold that day.
+        """
         sold = 0
         if self._event_category == {}:
             print('No data found.')

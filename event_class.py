@@ -1,10 +1,16 @@
 from datetime import datetime
+
+# Can be modified to fit specific situations.
 PRICE_TIERS = ['tier1', 'tier2', 'tier3', 'tier4']
 SHOW_TIME = ['m', 'n']
 SCREEN = ['1', '2', '3', '4', '5']
 
 
 class Event(object):
+    """
+    Event class that could help process some data that is event specific.
+    Also a storage class.
+    """
     def __init__(self, show_day, show_time, screen):
         if show_time not in SHOW_TIME:
             print('Show time not valid. Choose between m or n.')
@@ -49,11 +55,13 @@ class Event(object):
         return self._price
 
     def generate_serial_number(self):
+        """
+        :return: str, serial number. eg: 20180425141123
+        """
         serial = str(self._showtime_date_form.date()).replace('-', '') \
-                 + str(self._showtime_date_form.hour).replace(':', '') \
-                 + self.screen \
-                 + self._ticket_counter.pop()
-        # self._ticket_counter -= 1
+            + str(self._showtime_date_form.hour).replace(':', '') \
+            + self.screen \
+            + self._ticket_counter.pop()
         return serial
 
     def execute_refund(self, serial):
