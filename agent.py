@@ -44,7 +44,7 @@ class AppShell(cmd.Cmd):
 
     def do_report_event(self, args):
         """
-        Generate a report of the number of _event_category sold and number of vacant seats
+        Generate a report of the number of tickets sold and number of vacant seats
         for any given showtime, past or future
         Input: report_event <date> <showtime> <auditorium>
         Print: ticket sale for the specific event, if exists.
@@ -56,7 +56,7 @@ class AppShell(cmd.Cmd):
 
     def do_report_day(self, args):
         """
-        Generate a report of the total number of _event_category sold on any given date
+        Generate a report of the total number of tickets sold on any given date
         Input: <date>
         Print: ticket sale for the day.
         <date> format: yyyymmdd
