@@ -92,8 +92,12 @@ class BoxOffice(object):
         sold = 0
         if self._event_category == {}:
             print('No data found.')
+            return None
         else:
-            for info, value in self._event_category.items():
+            for info, event in self._event_category.items():
+                isinstance(event, Event)
                 if info[0] == day:
-                    sold += (200 - len(value['_event_category']))
-            print('{} _event_category sold on day {}'.format(sold, day))
+                    sold += (200 - event.vacant_ticket_report())
+            print('{} tickets sold on day {}'.format(sold, day))
+            return sold
+
