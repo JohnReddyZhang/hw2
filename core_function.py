@@ -3,7 +3,7 @@ from datetime import datetime, timedelta
 from event_class import Event
 
 
-class BOffice(object):
+class BoxOffice(object):
     """
     Box Office class that do the operations.
     """

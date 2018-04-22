@@ -6,7 +6,7 @@ import core_function
 class Test0BuyTickets(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.BoxOffice = core_function.BOffice()
+        cls.BoxOffice = core_function.BoxOffice()
 
     def test_0_buy_a_ticket(self):
         self.assertTrue(self.BoxOffice.buy('20180427', 'm', '1', '1'))
@@ -51,7 +51,7 @@ class Test0BuyTickets(unittest.TestCase):
 class Test1RefundTickets(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.BoxOffice = core_function.BOffice()
+        cls.BoxOffice = core_function.BoxOffice()
 
     def test_0_refund_1(self):
         self.BoxOffice.buy('20180427', 'm', '2', '1')
@@ -72,6 +72,12 @@ class Test1RefundTickets(unittest.TestCase):
         self.assertIn('20180427142001', self.BoxOffice._serial_numbers)
         self.assertNotIn('001', self.BoxOffice._event_category[('20180427', 'm', '2')]._ticket_counter)
 
+    def test_3_refund_not_existing_event(self):
+        self.assertFalse(self.BoxOffice.refund('20160427142001'))
 
+class Test3Reports(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.BoxOffice = core_function.BoxOffice
 if __name__ == '__main__':
     unittest.main()

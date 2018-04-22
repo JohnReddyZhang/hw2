@@ -3,7 +3,7 @@
 # Example for how to build a command-line application
 
 import cmd
-from core_function import BOffice
+from core_function import BoxOffice
 
 
 class AppShell(cmd.Cmd):
@@ -12,7 +12,7 @@ class AppShell(cmd.Cmd):
 
     def __init__(self):
         super().__init__()
-        self.b_office = BOffice()
+        self.b_office = BoxOffice()
 
     @staticmethod
     def do_quit(args=''):
