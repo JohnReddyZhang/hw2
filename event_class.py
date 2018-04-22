@@ -18,7 +18,7 @@ class Event(object):
         self._price = None
         self.screen = screen
         self._calculate_price_tier()
-        self._ticket_counter = 200
+        self._ticket_counter = ['{:0>3}'.format(str(i)) for i in reversed(range(200))]
 
     def _calculate_price_tier(self):
         if self._showtime_date_form.isoweekday() <= 4:
@@ -33,10 +33,14 @@ class Event(object):
                 self._price = PRICE_TIERS[3]
         return True
 
-    def is_event_valid(self, current_time, valid_operation_time):
-        if self._showtime_date_form - current_time > valid_operation_time or self._showtime_date_form < current_time:
+    def event_is_valid(self, current_time, valid_operation_time):
+        if self._showtime_date_form - current_time > valid_operation_time \
+                or self.event_is_over(current_time):
             return False
         return True
+
+    def event_is_over(self, current_time):
+        return self._showtime_date_form < current_time
 
     def remaining_tickets_lookup(self):
         return self._ticket_counter
@@ -48,6 +52,15 @@ class Event(object):
         serial = str(self._showtime_date_form.date()).replace('-', '') \
                  + str(self._showtime_date_form.hour).replace(':', '') \
                  + self.screen \
-                 + '{:0>3}'.format(str(self._ticket_counter))
-        self._ticket_counter -= 1
+                 + self._ticket_counter.pop()
+        # self._ticket_counter -= 1
         return serial
+
+    def execute_refund(self, serial):
+        ticket_number = serial[-3]
+        if ticket_number in self._ticket_counter:
+            print('Ticket data is incorrect.')
+            return False
+        self._ticket_counter.append(ticket_number)
+        return self.price_tier_lookup()
+
