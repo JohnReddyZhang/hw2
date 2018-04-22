@@ -95,10 +95,10 @@ class Test3Reports(unittest.TestCase):
 
     def test_1_report_event(self):
         self.assertEqual(self.BoxOffice.report_event('20180426', 'm', '1'), 185)
-    #
-    # def test_2_report_event_not_exist(self):
-    #     self.assertFalse(self.BoxOffice.report_event('20180426', 'n', '2'))
-    #
+
+    def test_2_report_event_not_exist(self):
+        self.assertFalse(self.BoxOffice.report_event('20180426', 'n', '2'))
+
 
 
 if __name__ == '__main__':
