@@ -17,13 +17,13 @@ class BoxOffice(object):
         self._event_category = {}
         self._serial_numbers = {}
         self._valid_operation_time = timedelta(days=7)
-        history = PATH / '{}.pkl'.format(self.name)
-        if history.exists():
-            with open(history, 'rb') as source:
+        self._history = PATH / '{}.pkl'.format(self.name)
+        if self._history.exists():
+            with open(self._history, 'rb') as source:
                 self._event_category, self._serial_numbers = pickle.load(source)
 
-    def __del__(self):
-        with open(PATH / '{}.pkl'.format(self.name), 'wb') as dump:
+    def dump_data(self):
+        with open(self._history, 'wb') as dump:
             pickle.dump([self._event_category, self._serial_numbers], dump, pickle.HIGHEST_PROTOCOL)
 
     def buy(self, show_day, show_time, screen, number_of_ticket=1):
@@ -36,6 +36,7 @@ class BoxOffice(object):
                 success = self._buy(show_day, show_time, screen)
                 if not success:
                     return False
+            self.dump_data()
             return True
         except IndexError:
             return False
@@ -85,6 +86,7 @@ class BoxOffice(object):
             return False
         else:
             print('Success! Refund price: {}'.format(refund_price))
+            self.dump_data()
             return True
 
     def report_event(self, show_day, show_time, screen):
