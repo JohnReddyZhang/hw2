@@ -106,15 +106,15 @@ class Test3Reports(unittest.TestCase):
     def test_3_report_daily(self):
         self.assertEqual(self.BoxOffice.report_day('20180427'), 2)
 
-    # def test_4_report_daily(self):
-    #     self.assertEqual(self.BoxOffice.report_day('20180426'), 15)
-    #
-    # def test_5_report_daily(self):
-    #     self.assertEqual(self.BoxOffice.report_day('20180425'), 16)
-    #
-    # def test_6_report_daily(self):
-    #     self.assertEqual(self.BoxOffice.report_day('20180424'), 0)
-    #
+    def test_4_report_daily(self):
+        self.assertEqual(self.BoxOffice.report_day('20180426'), 15)
+
+    def test_5_report_daily(self):
+        self.assertEqual(self.BoxOffice.report_day('20180425'), 16)
+
+    def test_6_report_daily(self):
+        self.assertEqual(self.BoxOffice.report_day('20180424'), 0)
+
     # def test_6_report_daily_no_record(self):
     #     self.assertFalse(self.BoxOffice.report_day('20180422'))
 
