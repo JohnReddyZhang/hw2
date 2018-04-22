@@ -76,7 +76,7 @@ class Test1RefundTickets(unittest.TestCase):
         self.assertFalse(self.BoxOffice.refund('20160427142001'))
 
 
-class Test3Reports(unittest.TestCase):
+class Test2Reports(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.BoxOffice = core_function.BoxOffice()
@@ -117,6 +117,15 @@ class Test3Reports(unittest.TestCase):
 
     def test_6_report_daily_no_record(self):
         self.assertEqual(self.BoxOffice.report_day('20180422'), 0)
+
+
+class Test3LoadFiles(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.BoxOffice = core_function.BoxOffice()
+
+    def test_0_report(self):
+        self.assertEqual(self.BoxOffice.report_day('20180425'), 16)
 
 
 if __name__ == '__main__':

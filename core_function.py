@@ -6,6 +6,7 @@ PATH = pathlib.Path('./data')
 if not PATH.exists():
     PATH.mkdir()
 
+
 class BoxOffice(object):
     """
     Box Office class that do the operations.
