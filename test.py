@@ -75,9 +75,33 @@ class Test1RefundTickets(unittest.TestCase):
     def test_3_refund_not_existing_event(self):
         self.assertFalse(self.BoxOffice.refund('20160427142001'))
 
+
 class Test3Reports(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.BoxOffice = core_function.BoxOffice
+        cls.BoxOffice = core_function.BoxOffice()
+
+    def test_0_setup(self):
+        # 4.27 sells 2 tickets, one for each time in auditorium 1
+        self.BoxOffice.buy('20180427', 'm', '1', '1')
+        self.BoxOffice.buy('20180427', 'n', '1', '1')
+        # 4.26 sells 15 tickets, all in matinee auditorium 1
+        self.BoxOffice.buy('20180426', 'm', '1', '10')
+        self.BoxOffice.buy('20180426', 'm', '1', '5')
+        # 4.25 sells 10 tickets in matinee auditorium 1, 6 in night auditorium 2
+        self.BoxOffice.buy('20180425', 'm', '1', '10')
+        self.BoxOffice.buy('20180425', 'n', '2', '6')
+        self.assertTrue(True)
+
+    def test_1_report_event(self):
+        self.assertEqual(self.BoxOffice.report_event('20180427', 'm', '1'), ('1', '199'))
+
+    def test_2_report_event(self):
+        self.assertEqual(self.BoxOffice.report_event('20180426', 'm', '1'), ('10', '190'))
+
+    def test_3_report_event_not_exist(self):
+        self.assertFalse(self.BoxOffice.report_event('20180426', 'n', '2'))
+
+
 if __name__ == '__main__':
     unittest.main()
