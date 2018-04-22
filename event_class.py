@@ -64,3 +64,5 @@ class Event(object):
         self._ticket_counter.append(ticket_number)
         return self.price_tier_lookup()
 
+    def vacant_ticket_report(self):
+        return len(self._ticket_counter)
