@@ -63,6 +63,15 @@ class Test1RefundTickets(unittest.TestCase):
         self.BoxOffice.refund('20180427142001')
         self.assertNotIn('20180427142001', self.BoxOffice._serial_numbers)
 
+    def test_2_refund_then_buy(self):
+        self.BoxOffice.buy('20180427', 'm', '2', '3')
+        self.BoxOffice.refund('20180427142001')
+        self.assertNotIn('20180427142001', self.BoxOffice._serial_numbers)
+
+        self.BoxOffice.buy('20180427', 'm', '2', '1')
+        self.assertIn('20180427142001', self.BoxOffice._serial_numbers)
+        self.assertNotIn('001', self.BoxOffice._event_category[('20180427', 'm', '2')]._ticket_counter)
+
 
 if __name__ == '__main__':
     unittest.main()

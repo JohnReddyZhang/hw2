@@ -57,7 +57,7 @@ class Event(object):
         return serial
 
     def execute_refund(self, serial):
-        ticket_number = serial[-3]
+        ticket_number = serial[-3:]
         if ticket_number in self._ticket_counter:
             print('Ticket data is incorrect.')
             return False

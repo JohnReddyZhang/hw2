@@ -69,24 +69,10 @@ class BOffice(object):
         self._serial_numbers.pop(serial)
         if refund_price is False:
             print('Refund attempt failed.')
+            return False
         else:
             print('Success! Refund price: {}'.format(refund_price))
-        # info = (serial[0: 8], serial[8], serial[9])
-        # show_d, show_t, screen = info
-        # # (date, showtime, auditorium)
-        # showtime = datetime.strptime(show_d+'1400' if show_t == 'm'
-        #                              else show_d + '2000',
-        #                              '%Y%m%d%H%M')
-        # if info in self._event_category.keys() and serial in self._event_category[info]['serial']:
-        #     # If the ticket exists, check whether the time has past.
-        #     if showtime < self.now:
-        #         print('Cannot refund. Time has past.')
-        #     else:
-        #         print('Refund value: {}'.format(self._event_category[info]['_price']))
-        #         self._event_category[info]['serial'].remove(serial)
-        #         self._event_category[info]['_event_category'].append(serial[10:])
-        # else:
-        #     print('Did not find ticket record for this event.')
+            return True
 
     def report_event(self, show_day, show_time, screen):
         info = (show_day, show_time, screen)
