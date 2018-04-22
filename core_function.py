@@ -1,17 +1,29 @@
-from sys import exit
+import pickle, pathlib
 from datetime import datetime, timedelta
 from event_class import Event
 
+PATH = pathlib.Path('./data')
+if not PATH.exists():
+    PATH.mkdir()
 
 class BoxOffice(object):
     """
     Box Office class that do the operations.
     """
-    def __init__(self):
+    def __init__(self, name='default'):
+        self.name = name
         self.now = None
         self._event_category = {}
         self._serial_numbers = {}
         self._valid_operation_time = timedelta(days=7)
+        history = PATH / '{}.pkl'.format(self.name)
+        if history.exists():
+            with open(history, 'rb') as source:
+                self._event_category, self._serial_numbers = pickle.load(source)
+
+    def __del__(self):
+        with open(PATH / '{}.pkl'.format(self.name), 'wb') as dump:
+            pickle.dump([self._event_category, self._serial_numbers], dump, pickle.HIGHEST_PROTOCOL)
 
     def buy(self, show_day, show_time, screen, number_of_ticket=1):
         try:
@@ -100,4 +112,3 @@ class BoxOffice(object):
                     sold += (200 - event.vacant_ticket_report())
             print('{} tickets sold on day {}'.format(sold, day))
             return sold
-
